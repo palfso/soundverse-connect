@@ -1,7 +1,9 @@
 import { MusicCard } from "@/components/MusicCard";
 import { ThemeToggle } from "@/components/ThemeToggle";
+import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
+import { UserCircle } from "lucide-react";
 
-// Données de test
 const musicPosts = [
   {
     id: 1,
@@ -37,7 +39,12 @@ const Index = () => {
     <div className="min-h-screen bg-background">
       <div className="container py-8 px-4 sm:px-6 lg:px-8">
         <header className="text-center mb-12 relative">
-          <div className="absolute right-4 top-0">
+          <div className="absolute right-4 top-0 flex items-center space-x-4">
+            <Link to="/profile">
+              <Button variant="ghost" size="icon">
+                <UserCircle className="h-5 w-5" />
+              </Button>
+            </Link>
             <ThemeToggle />
           </div>
           <h1 className="text-4xl font-bold mb-4">MusicFlow</h1>
