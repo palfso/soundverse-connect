@@ -1,3 +1,4 @@
+
 import { MusicCard } from "@/components/MusicCard";
 import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
@@ -7,31 +8,31 @@ import { UserCircle } from "lucide-react";
 const musicPosts = [
   {
     id: 1,
-    title: "Blinding Lights",
+    title: "Starboy",
     artist: "The Weeknd",
-    coverUrl: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158",
-    likes: 1234,
-    comments: 89,
-    shares: 45
+    coverUrl: "/lovable-uploads/5259fc9c-304a-4272-a957-f87c06a2e81b.png",
+    likes: 2345,
+    comments: 156,
+    shares: 89
   },
   {
     id: 2,
-    title: "As It Was",
-    artist: "Harry Styles",
-    coverUrl: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7",
-    likes: 2341,
-    comments: 167,
-    shares: 78
+    title: "brat",
+    artist: "Unknown Artist",
+    coverUrl: "/lovable-uploads/eaecae18-c47f-4626-94b7-fd4f0151e39b.png",
+    likes: 1678,
+    comments: 92,
+    shares: 45
   },
   {
     id: 3,
-    title: "Bad Habit",
-    artist: "Steve Lacy",
-    coverUrl: "https://images.unsplash.com/photo-1498050108023-c5249f4df085",
-    likes: 987,
-    comments: 56,
-    shares: 23
-  },
+    title: "The Deep",
+    artist: "Ocean Sounds",
+    coverUrl: "/lovable-uploads/9c13248e-f703-40aa-9169-e7410aa762bc.png",
+    likes: 1893,
+    comments: 134,
+    shares: 67
+  }
 ];
 
 const Index = () => {
