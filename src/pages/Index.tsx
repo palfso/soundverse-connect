@@ -1,5 +1,5 @@
-
 import { MusicCard } from "@/components/MusicCard";
+import { ThemeToggle } from "@/components/ThemeToggle";
 
 // Données de test
 const musicPosts = [
@@ -36,7 +36,10 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-8 px-4 sm:px-6 lg:px-8">
-        <header className="text-center mb-12">
+        <header className="text-center mb-12 relative">
+          <div className="absolute right-4 top-0">
+            <ThemeToggle />
+          </div>
           <h1 className="text-4xl font-bold mb-4">MusicFlow</h1>
           <p className="text-lg text-muted-foreground">Discover and share the music you love</p>
         </header>
