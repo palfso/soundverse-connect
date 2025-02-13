@@ -51,11 +51,19 @@ const Profile = () => {
               <ArrowLeft className="h-5 w-5" />
             </Button>
           </Link>
-          <Link to="/">
-            <Button variant="ghost" size="icon">
-              <Home className="h-5 w-5" />
-            </Button>
-          </Link>
+          <div className="flex items-center space-x-2">
+            <Link to="/messages">
+              <Button variant="outline">
+                <Mail className="w-4 h-4 mr-2" />
+                Messages
+              </Button>
+            </Link>
+            <Link to="/">
+              <Button variant="ghost" size="icon">
+                <Home className="h-5 w-5" />
+              </Button>
+            </Link>
+          </div>
         </div>
 
         {/* En-tête du profil */}
@@ -96,10 +104,12 @@ const Profile = () => {
           {/* Actions */}
           <div className="flex justify-center space-x-4">
             <Button>Follow</Button>
-            <Button variant="outline">
-              <Mail className="w-4 h-4 mr-2" />
-              Message
-            </Button>
+            <Link to="/messages">
+              <Button variant="outline">
+                <Mail className="w-4 h-4 mr-2" />
+                Message
+              </Button>
+            </Link>
           </div>
 
           {/* Onglets */}
