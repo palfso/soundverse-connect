@@ -6,6 +6,11 @@ export interface Message {
   content: string;
   timestamp: string;
   read: boolean;
+  music?: {
+    title: string;
+    artist: string;
+    coverUrl: string;
+  };
 }
 
 export interface Conversation {
@@ -16,4 +21,12 @@ export interface Conversation {
   lastMessage: string;
   lastMessageDate: string;
   unreadCount: number;
+}
+
+export interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  level: 'bronze' | 'silver' | 'gold';
 }

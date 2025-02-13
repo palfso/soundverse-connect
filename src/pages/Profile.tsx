@@ -1,4 +1,3 @@
-
 import { UserAvatar } from "@/components/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -18,6 +17,26 @@ const mockProfile: UserProfile = {
   following: 567,
   playlists: 23,
   joinedDate: "2023-01-15",
+  badges: [
+    {
+      id: "1",
+      name: "Mélomane",
+      description: "A partagé plus de 100 morceaux",
+      icon: "🎵",
+      level: "gold"
+    },
+    {
+      id: "2",
+      name: "Défricheur",
+      description: "Découvre régulièrement de nouveaux artistes",
+      icon: "🔍",
+      level: "silver"
+    }
+  ],
+  expertise: {
+    sharedMusic: 156,
+    interactions: 789
+  },
   posts: [
     {
       id: 1,
@@ -44,7 +63,6 @@ const Profile = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-8 px-4 sm:px-6 lg:px-8">
-        {/* Navigation */}
         <div className="flex justify-between items-center mb-8">
           <Link to="/">
             <Button variant="ghost" size="icon">
@@ -66,7 +84,6 @@ const Profile = () => {
           </div>
         </div>
 
-        {/* En-tête du profil */}
         <div className="space-y-8">
           <div className="flex flex-col items-center space-y-4">
             <UserAvatar user={mockProfile} size="lg" />
@@ -76,7 +93,26 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Stats */}
+          <div className="max-w-2xl mx-auto">
+            <div className="flex flex-wrap justify-center gap-4">
+              {mockProfile.badges.map((badge) => (
+                <div
+                  key={badge.id}
+                  className={`px-4 py-2 rounded-full flex items-center space-x-2 ${
+                    badge.level === 'gold' 
+                      ? 'bg-yellow-100 text-yellow-800' 
+                      : badge.level === 'silver'
+                      ? 'bg-gray-100 text-gray-800'
+                      : 'bg-orange-100 text-orange-800'
+                  }`}
+                >
+                  <span>{badge.icon}</span>
+                  <span className="font-medium">{badge.name}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+
           <div className="flex justify-center space-x-8">
             <div className="text-center">
               <p className="text-2xl font-bold">{mockProfile.followers}</p>
@@ -92,7 +128,6 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Bio */}
           <div className="max-w-2xl mx-auto text-center">
             <p className="text-muted-foreground">{mockProfile.bio}</p>
             <div className="flex items-center justify-center mt-2 text-sm text-muted-foreground">
@@ -101,7 +136,6 @@ const Profile = () => {
             </div>
           </div>
 
-          {/* Actions */}
           <div className="flex justify-center space-x-4">
             <Button>Follow</Button>
             <Link to="/messages">
@@ -112,7 +146,6 @@ const Profile = () => {
             </Link>
           </div>
 
-          {/* Onglets */}
           <Tabs defaultValue="posts" className="w-full max-w-4xl mx-auto">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="posts" className="flex items-center">

@@ -10,6 +10,11 @@ export interface UserProfile {
   playlists: number;
   joinedDate: string;
   posts: MusicPost[];
+  badges: Badge[];
+  expertise: {
+    sharedMusic: number;
+    interactions: number;
+  };
 }
 
 export interface MusicPost {
@@ -20,4 +25,12 @@ export interface MusicPost {
   likes: number;
   comments: number;
   shares: number;
+}
+
+export interface Badge {
+  id: string;
+  name: string;
+  description: string;
+  icon: string;
+  level: 'bronze' | 'silver' | 'gold';
 }

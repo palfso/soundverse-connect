@@ -1,7 +1,9 @@
 
-import { Heart, MessageCircle, Share2, Play, Flame, Headphones } from "lucide-react";
+import { Heart, MessageCircle, Share2, Play, Flame, Headphones, Send } from "lucide-react";
 import { useState } from "react";
 import { AudioVisualizer } from "./AudioVisualizer";
+import { Button } from "./ui/button";
+import { useToast } from "./ui/use-toast";
 
 interface MusicCardProps {
   title: string;
@@ -15,6 +17,7 @@ interface MusicCardProps {
 export function MusicCard({ title, artist, coverUrl, likes, comments, shares }: MusicCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
+  const { toast } = useToast();
   const [reactions, setReactions] = useState({
     fire: 0,
     headphones: 0,
@@ -26,6 +29,14 @@ export function MusicCard({ title, artist, coverUrl, likes, comments, shares }: 
       ...prev,
       [type]: prev[type] + 1
     }));
+  };
+
+  const handleShareInDM = () => {
+    // Simulation d'envoi en DM
+    toast({
+      title: "Musique partagée",
+      description: "La musique a été partagée en message privé",
+    });
   };
   
   return (
@@ -86,6 +97,15 @@ export function MusicCard({ title, artist, coverUrl, likes, comments, shares }: 
             <Heart className="w-5 h-5" />
             <span>{reactions.love}</span>
           </button>
+
+          <Button 
+            variant="ghost" 
+            size="icon"
+            onClick={handleShareInDM}
+            className="ml-auto hover:text-blue-500"
+          >
+            <Send className="w-5 h-5" />
+          </Button>
         </div>
         
         <div className="flex items-center justify-between border-t border-border pt-3">
