@@ -3,7 +3,9 @@ import { UserAvatar } from "@/components/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { UserProfile } from "@/types/user";
-import { CalendarDays, Music, Users } from "lucide-react";
+import { ArrowLeft, CalendarDays, Home, Mail, Music, Users } from "lucide-react";
+import { Link } from "react-router-dom";
+import { MusicCard } from "@/components/MusicCard";
 
 // Données de test
 const mockProfile: UserProfile = {
@@ -15,13 +17,47 @@ const mockProfile: UserProfile = {
   followers: 1234,
   following: 567,
   playlists: 23,
-  joinedDate: "2023-01-15"
+  joinedDate: "2023-01-15",
+  posts: [
+    {
+      id: 1,
+      title: "Starboy",
+      artist: "The Weeknd",
+      coverUrl: "/lovable-uploads/5259fc9c-304a-4272-a957-f87c06a2e81b.png",
+      likes: 2345,
+      comments: 156,
+      shares: 89
+    },
+    {
+      id: 2,
+      title: "brat",
+      artist: "Unknown Artist",
+      coverUrl: "/lovable-uploads/eaecae18-c47f-4626-94b7-fd4f0151e39b.png",
+      likes: 1678,
+      comments: 92,
+      shares: 45
+    }
+  ]
 };
 
 const Profile = () => {
   return (
     <div className="min-h-screen bg-background">
       <div className="container py-8 px-4 sm:px-6 lg:px-8">
+        {/* Navigation */}
+        <div className="flex justify-between items-center mb-8">
+          <Link to="/">
+            <Button variant="ghost" size="icon">
+              <ArrowLeft className="h-5 w-5" />
+            </Button>
+          </Link>
+          <Link to="/">
+            <Button variant="ghost" size="icon">
+              <Home className="h-5 w-5" />
+            </Button>
+          </Link>
+        </div>
+
         {/* En-tête du profil */}
         <div className="space-y-8">
           <div className="flex flex-col items-center space-y-4">
@@ -60,7 +96,10 @@ const Profile = () => {
           {/* Actions */}
           <div className="flex justify-center space-x-4">
             <Button>Follow</Button>
-            <Button variant="outline">Message</Button>
+            <Button variant="outline">
+              <Mail className="w-4 h-4 mr-2" />
+              Message
+            </Button>
           </div>
 
           {/* Onglets */}
@@ -81,10 +120,9 @@ const Profile = () => {
             </TabsList>
             <TabsContent value="posts" className="mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {/* Nous utiliserons les mêmes MusicCard ici plus tard */}
-                <div className="h-48 bg-accent rounded-lg flex items-center justify-center">
-                  Post content coming soon
-                </div>
+                {mockProfile.posts.map((post) => (
+                  <MusicCard key={post.id} {...post} />
+                ))}
               </div>
             </TabsContent>
             <TabsContent value="playlists" className="mt-6">

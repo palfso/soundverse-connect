@@ -9,4 +9,15 @@ export interface UserProfile {
   following: number;
   playlists: number;
   joinedDate: string;
+  posts: MusicPost[];
+}
+
+export interface MusicPost {
+  id: number;
+  title: string;
+  artist: string;
+  coverUrl: string;
+  likes: number;
+  comments: number;
+  shares: number;
 }
