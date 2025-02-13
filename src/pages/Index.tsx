@@ -48,7 +48,9 @@ const Index = () => {
             </Link>
             <ThemeToggle />
           </div>
-          <h1 className="text-4xl font-bold mb-4">MusicFlow</h1>
+          <div className="mb-6">
+            <img src="/lovable-uploads/dda640db-f01f-4c47-8361-1aa4a14b768e.png" alt="Flow" className="h-16 mx-auto" />
+          </div>
           <p className="text-lg text-muted-foreground">Discover and share the music you love</p>
         </header>
 
