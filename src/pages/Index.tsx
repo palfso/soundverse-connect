@@ -41,7 +41,7 @@ const Index = () => {
       <div className="container py-8 px-4 sm:px-6 lg:px-8">
         <header className="text-center mb-12 relative">
           <div className="absolute right-4 top-0 flex items-center space-x-4">
-            <Link to="/profile">
+            <Link to="/login">
               <Button variant="ghost" size="icon">
                 <UserCircle className="h-5 w-5" />
               </Button>
