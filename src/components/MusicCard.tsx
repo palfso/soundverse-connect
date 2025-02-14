@@ -4,6 +4,8 @@ import { useState } from "react";
 import { AudioVisualizer } from "./AudioVisualizer";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
+import { UserAvatar } from "./UserAvatar";
+import { Link } from "react-router-dom";
 
 interface MusicCardProps {
   title: string;
@@ -12,9 +14,13 @@ interface MusicCardProps {
   likes: number;
   comments: number;
   shares: number;
+  user: {
+    username: string;
+    avatarUrl: string;
+  };
 }
 
-export function MusicCard({ title, artist, coverUrl, likes, comments, shares }: MusicCardProps) {
+export function MusicCard({ title, artist, coverUrl, likes, comments, shares, user }: MusicCardProps) {
   const [isHovered, setIsHovered] = useState(false);
   const [isPlaying, setIsPlaying] = useState(false);
   const { toast } = useToast();
@@ -32,7 +38,6 @@ export function MusicCard({ title, artist, coverUrl, likes, comments, shares }: 
   };
 
   const handleShareInDM = () => {
-    // Simulation d'envoi en DM
     toast({
       title: "Musique partagée",
       description: "La musique a été partagée en message privé",
@@ -45,11 +50,20 @@ export function MusicCard({ title, artist, coverUrl, likes, comments, shares }: 
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >
+      <div className="p-4 border-b border-border">
+        <Link to="/profile" className="flex items-center space-x-3 group">
+          <UserAvatar user={user} size="sm" />
+          <span className="text-sm font-medium group-hover:text-primary transition-colors">
+            @{user.username}
+          </span>
+        </Link>
+      </div>
+
       <div className="relative aspect-square">
         <img 
           src={coverUrl} 
           alt={`${title} by ${artist}`}
-          className="w-full h-full object-cover rounded-t-xl"
+          className="w-full h-full object-cover"
         />
         <div className={`absolute inset-0 bg-black/40 transition-opacity duration-300 ${isHovered ? 'opacity-100' : 'opacity-0'} flex items-center justify-center`}>
           <button 

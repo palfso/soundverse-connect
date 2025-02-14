@@ -23,7 +23,11 @@ const musicPosts = [
     likes: 2345,
     comments: 156,
     shares: 89,
-    trending: true
+    trending: true,
+    user: {
+      username: "musiclover",
+      avatarUrl: "/lovable-uploads/5259fc9c-304a-4272-a957-f87c06a2e81b.png"
+    }
   },
   {
     id: 2,
@@ -33,7 +37,11 @@ const musicPosts = [
     likes: 1678,
     comments: 92,
     shares: 45,
-    trending: false
+    trending: false,
+    user: {
+      username: "beatmaker",
+      avatarUrl: "/lovable-uploads/eaecae18-c47f-4626-94b7-fd4f0151e39b.png"
+    }
   },
   {
     id: 3,
@@ -43,7 +51,11 @@ const musicPosts = [
     likes: 1893,
     comments: 134,
     shares: 67,
-    trending: true
+    trending: true,
+    user: {
+      username: "wavesurfer",
+      avatarUrl: "/lovable-uploads/9c13248e-f703-40aa-9169-e7410aa762bc.png"
+    }
   }
 ];
 
