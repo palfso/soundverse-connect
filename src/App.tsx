@@ -48,7 +48,7 @@ function BottomNav() {
         </div>
       </div>
     </nav>
-  ));
+  );
 }
 
 const App = () => (
