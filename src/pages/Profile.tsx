@@ -59,6 +59,14 @@ const mockProfile: UserProfile = {
   ]
 };
 
+const profilePosts = mockProfile.posts.map(post => ({
+  ...post,
+  user: {
+    username: "currentUser",
+    avatarUrl: "/profile-avatar.jpg"
+  }
+}));
+
 const Profile = () => {
   return (
     <div className="min-h-screen bg-background">
@@ -163,7 +171,7 @@ const Profile = () => {
             </TabsList>
             <TabsContent value="posts" className="mt-6">
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                {mockProfile.posts.map((post) => (
+                {profilePosts.map((post) => (
                   <MusicCard key={post.id} {...post} />
                 ))}
               </div>
