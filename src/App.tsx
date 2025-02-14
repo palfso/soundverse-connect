@@ -12,6 +12,10 @@ import Login from "./pages/Login";
 import Register from "./pages/Register";
 import Messages from "./pages/Messages";
 import NotFound from "./pages/NotFound";
+import SearchPage from "./pages/Search";
+import Playlists from "./pages/Playlists";
+import CreatePlaylist from "./pages/CreatePlaylist";
+import PlaylistDetail from "./pages/PlaylistDetail";
 
 const queryClient = new QueryClient();
 
@@ -57,13 +61,17 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <div className="pb-20"> {/* Add padding to account for the bottom nav */}
+        <div className="pb-20">
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/profile" element={<Profile />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/messages" element={<Messages />} />
+            <Route path="/search" element={<SearchPage />} />
+            <Route path="/playlists" element={<Playlists />} />
+            <Route path="/playlists/create" element={<CreatePlaylist />} />
+            <Route path="/playlists/:id" element={<PlaylistDetail />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
           <BottomNav />
