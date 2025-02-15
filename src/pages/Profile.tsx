@@ -1,8 +1,8 @@
 import { UserAvatar } from "@/components/UserAvatar";
 import { Button } from "@/components/ui/button";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { UserProfile } from "@/types/user";
-import { ArrowLeft, CalendarDays, Home, Mail, Music, Users, Camera, X, Edit2, Save, Lock } from "lucide-react";
+import { UserProfile, ConnectedService } from "@/types/user";
+import { ArrowLeft, CalendarDays, Home, Mail, Music, Users, Camera, X, Edit2, Save, Lock, RefreshCw } from "lucide-react";
 import { Link } from "react-router-dom";
 import { MusicCard } from "@/components/MusicCard";
 import { useState } from "react";
@@ -29,6 +29,7 @@ import { Switch } from "@/components/ui/switch";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import * as z from "zod";
+import { ConnectedServices } from "@/components/ConnectedServices";
 
 // Schéma de validation pour le formulaire d'édition du profil
 const profileFormSchema = z.object({
@@ -99,6 +100,25 @@ const mockProfile: UserProfile = {
       comments: 92,
       shares: 45
     }
+  ],
+  connectedServices: [
+    {
+      id: "1",
+      name: "spotify",
+      connected: true,
+      lastSync: "2024-03-10T10:00:00Z",
+      username: "musiclover_spotify"
+    },
+    {
+      id: "2",
+      name: "apple_music",
+      connected: false
+    },
+    {
+      id: "3",
+      name: "deezer",
+      connected: false
+    }
   ]
 };
 
@@ -156,6 +176,21 @@ const Profile = () => {
       description: "Vos modifications ont été enregistrées",
     });
     setIsEditing(false);
+  };
+
+  const handleServiceConnect = (serviceName: ConnectedService['name']) => {
+    toast({
+      title: "Connexion en cours",
+      description: `Connexion à ${serviceName}...`,
+    });
+  };
+
+  const handleServiceSync = (serviceId: string) => {
+    const service = mockProfile.connectedServices?.find(s => s.id === serviceId);
+    if (service) {
+      // Logique de synchronisation ici
+      console.log(`Synchronisation avec ${service.name}`);
+    }
   };
 
   return (
@@ -440,7 +475,7 @@ const Profile = () => {
             </div>
 
             <Tabs defaultValue="posts" className="w-full max-w-4xl mx-auto">
-              <TabsList className="grid w-full grid-cols-3">
+              <TabsList className="grid w-full grid-cols-4">
                 <TabsTrigger value="posts" className="flex items-center">
                   <Music className="w-4 h-4 mr-2" />
                   Posts
@@ -452,6 +487,10 @@ const Profile = () => {
                 <TabsTrigger value="liked" className="flex items-center">
                   <Music className="w-4 h-4 mr-2" />
                   Liked
+                </TabsTrigger>
+                <TabsTrigger value="services" className="flex items-center">
+                  <RefreshCw className="w-4 h-4 mr-2" />
+                  Services
                 </TabsTrigger>
               </TabsList>
               <TabsContent value="posts" className="mt-6">
@@ -474,6 +513,13 @@ const Profile = () => {
                     Liked content coming soon
                   </div>
                 </div>
+              </TabsContent>
+              <TabsContent value="services" className="mt-6">
+                <ConnectedServices
+                  services={mockProfile.connectedServices || []}
+                  onConnect={handleServiceConnect}
+                  onSync={handleServiceSync}
+                />
               </TabsContent>
             </Tabs>
           </div>

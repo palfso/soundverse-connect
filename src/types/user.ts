@@ -15,6 +15,7 @@ export interface UserProfile {
     sharedMusic: number;
     interactions: number;
   };
+  connectedServices?: ConnectedService[];
 }
 
 export interface MusicPost {
@@ -33,4 +34,12 @@ export interface Badge {
   description: string;
   icon: string;
   level: 'bronze' | 'silver' | 'gold';
+}
+
+export interface ConnectedService {
+  id: string;
+  name: 'spotify' | 'apple_music' | 'deezer';
+  connected: boolean;
+  lastSync?: string;
+  username?: string;
 }
