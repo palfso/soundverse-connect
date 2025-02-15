@@ -4,8 +4,9 @@ import { ThemeToggle } from "@/components/ThemeToggle";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
-import { UserCircle, Search, TrendingUp, Filter } from "lucide-react";
+import { UserCircle, Search, TrendingUp, Filter, ArrowUpDown } from "lucide-react";
 import { useState } from "react";
+import { MiniPlayer } from "@/components/MiniPlayer";
 import {
   Select,
   SelectContent,
@@ -13,6 +14,12 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 const musicPosts = [
   {
@@ -63,8 +70,22 @@ const Index = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [selectedGenre, setSelectedGenre] = useState("");
   const [showTrending, setShowTrending] = useState(false);
+  const [sortBy, setSortBy] = useState<"recent" | "popular" | "alphabetical">("recent");
+  const [currentTrack, setCurrentTrack] = useState(musicPosts[0]);
 
-  const filteredPosts = musicPosts.filter(post => {
+  const getSortedPosts = () => {
+    let sorted = [...musicPosts];
+    switch (sortBy) {
+      case "popular":
+        return sorted.sort((a, b) => b.likes - a.likes);
+      case "alphabetical":
+        return sorted.sort((a, b) => a.title.localeCompare(b.title));
+      default:
+        return sorted;
+    }
+  };
+
+  const filteredPosts = getSortedPosts().filter(post => {
     const matchesSearch = post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          post.artist.toLowerCase().includes(searchQuery.toLowerCase());
     const matchesTrending = showTrending ? post.trending : true;
@@ -115,6 +136,26 @@ const Index = () => {
                 </SelectContent>
               </Select>
               
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="outline" className="flex items-center gap-2">
+                    <ArrowUpDown className="h-4 w-4" />
+                    Trier par
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent>
+                  <DropdownMenuItem onClick={() => setSortBy("recent")}>
+                    Plus récents
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSortBy("popular")}>
+                    Plus populaires
+                  </DropdownMenuItem>
+                  <DropdownMenuItem onClick={() => setSortBy("alphabetical")}>
+                    Ordre alphabétique
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+
               <Button
                 variant={showTrending ? "default" : "outline"}
                 onClick={() => setShowTrending(!showTrending)}
@@ -129,12 +170,14 @@ const Index = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {filteredPosts.map((post) => (
-            <div key={post.id} className="animate-fade-in">
+            <div key={post.id} className="animate-fade-in" onClick={() => setCurrentTrack(post)}>
               <MusicCard {...post} />
             </div>
           ))}
         </div>
       </div>
+
+      <MiniPlayer currentTrack={currentTrack} />
     </div>
   );
 };
