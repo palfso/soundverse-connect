@@ -46,7 +46,7 @@ export function MusicCard({ title, artist, coverUrl, likes, comments, shares, us
   
   return (
     <div 
-      className="music-card w-full max-w-sm mx-auto"
+      className="music-card w-full max-w-sm mx-auto animate-fade-in"
       onMouseEnter={() => setIsHovered(true)}
       onMouseLeave={() => setIsHovered(false)}
     >

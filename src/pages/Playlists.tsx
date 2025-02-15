@@ -39,7 +39,7 @@ const Playlists = () => {
           <Link
             key={playlist.id}
             to={`/playlists/${playlist.id}`}
-            className="group relative overflow-hidden rounded-lg aspect-square bg-accent hover:bg-accent/80 transition-colors"
+            className="group relative overflow-hidden rounded-lg aspect-square bg-accent hover-scale"
           >
             {playlist.coverUrl ? (
               <img
