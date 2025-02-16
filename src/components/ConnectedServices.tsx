@@ -11,6 +11,7 @@ import { CalendarClock, Music2, RefreshCw, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
 import { generateSpotifyAuthUrl, getSpotifyAccessToken } from '@/services/spotify/config';
 import { spotifyApi } from '@/services/spotify/api';
+import { appleMusicApi } from '@/services/apple-music/api';
 import { useState, useEffect } from 'react';
 
 interface ConnectedServicesProps {
@@ -27,9 +28,31 @@ export function ConnectedServices({ services, onConnect, onSync }: ConnectedServ
     window.location.href = generateSpotifyAuthUrl();
   };
 
+  const handleAppleMusicAuth = async () => {
+    try {
+      const token = await appleMusicApi.authorize();
+      if (token) {
+        toast({
+          title: "Connexion réussie",
+          description: "Vous êtes maintenant connecté à Apple Music",
+        });
+        onConnect('apple_music');
+      }
+    } catch (error) {
+      console.error('Erreur de connexion Apple Music:', error);
+      toast({
+        title: "Erreur de connexion",
+        description: "Impossible de se connecter à Apple Music",
+        variant: "destructive",
+      });
+    }
+  };
+
   const handleConnect = async (serviceName: ConnectedService['name']) => {
     if (serviceName === 'spotify') {
       handleSpotifyAuth();
+    } else if (serviceName === 'apple_music') {
+      handleAppleMusicAuth();
     } else {
       onConnect(serviceName);
     }
@@ -40,10 +63,17 @@ export function ConnectedServices({ services, onConnect, onSync }: ConnectedServ
     try {
       if (service.name === 'spotify') {
         const playlists = await spotifyApi.getPlaylists();
-        console.log('Playlists synchronisées:', playlists);
+        console.log('Playlists Spotify synchronisées:', playlists);
         toast({
           title: "Synchronisation réussie",
           description: `${playlists.length} playlists importées depuis Spotify`,
+        });
+      } else if (service.name === 'apple_music') {
+        const playlists = await appleMusicApi.getPlaylists();
+        console.log('Playlists Apple Music synchronisées:', playlists);
+        toast({
+          title: "Synchronisation réussie",
+          description: `${playlists.length} playlists importées depuis Apple Music`,
         });
       }
       onSync(service.id);
