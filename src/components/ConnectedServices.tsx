@@ -1,4 +1,3 @@
-
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -8,8 +7,11 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { ConnectedService } from "@/types/user";
-import { CalendarClock, Music2, RefreshCw } from "lucide-react";
+import { CalendarClock, Music2, RefreshCw, Loader2 } from "lucide-react";
 import { useToast } from "@/components/ui/use-toast";
+import { generateSpotifyAuthUrl, getSpotifyAccessToken } from '@/services/spotify/config';
+import { spotifyApi } from '@/services/spotify/api';
+import { useState, useEffect } from 'react';
 
 interface ConnectedServicesProps {
   services: ConnectedService[];
@@ -19,6 +21,43 @@ interface ConnectedServicesProps {
 
 export function ConnectedServices({ services, onConnect, onSync }: ConnectedServicesProps) {
   const { toast } = useToast();
+  const [isLoading, setIsLoading] = useState(false);
+
+  const handleSpotifyAuth = async () => {
+    window.location.href = generateSpotifyAuthUrl();
+  };
+
+  const handleConnect = async (serviceName: ConnectedService['name']) => {
+    if (serviceName === 'spotify') {
+      handleSpotifyAuth();
+    } else {
+      onConnect(serviceName);
+    }
+  };
+
+  const handleSync = async (service: ConnectedService) => {
+    setIsLoading(true);
+    try {
+      if (service.name === 'spotify') {
+        const playlists = await spotifyApi.getPlaylists();
+        console.log('Playlists synchronisées:', playlists);
+        toast({
+          title: "Synchronisation réussie",
+          description: `${playlists.length} playlists importées depuis Spotify`,
+        });
+      }
+      onSync(service.id);
+    } catch (error) {
+      console.error('Erreur de synchronisation:', error);
+      toast({
+        title: "Erreur de synchronisation",
+        description: "Une erreur est survenue lors de la synchronisation",
+        variant: "destructive",
+      });
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
   const getServiceIcon = (name: ConnectedService['name']) => {
     switch (name) {
@@ -44,14 +83,6 @@ export function ConnectedServices({ services, onConnect, onSync }: ConnectedServ
       default:
         return "bg-muted";
     }
-  };
-
-  const handleSync = (service: ConnectedService) => {
-    onSync(service.id);
-    toast({
-      title: "Synchronisation en cours",
-      description: `Synchronisation de vos playlists ${service.name}...`,
-    });
   };
 
   return (
@@ -85,15 +116,21 @@ export function ConnectedServices({ services, onConnect, onSync }: ConnectedServ
                   variant="ghost"
                   size="sm"
                   onClick={() => handleSync(service)}
+                  disabled={isLoading}
                 >
-                  <RefreshCw className="w-4 h-4 mr-2" />
+                  {isLoading ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <RefreshCw className="w-4 h-4 mr-2" />
+                  )}
                   Sync
                 </Button>
               ) : (
                 <Button
                   variant="secondary"
                   size="sm"
-                  onClick={() => onConnect(service.name)}
+                  onClick={() => handleConnect(service.name)}
+                  disabled={isLoading}
                 >
                   Connecter
                 </Button>
